@@ -1,3 +1,9 @@
 <script setup lang="ts">
-navigateTo('/lotto', { redirectCode: 301 })
+definePageMeta({
+  middleware: [
+    function (to, from) {
+      return navigateTo('/lotto', { redirectCode: 301 })
+    },
+  ],
+})
 </script>
