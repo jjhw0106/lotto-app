@@ -15,6 +15,7 @@ const showModal = ref(false)
 const countdown = ref(0)
 const totalTime = ref(0)
 const fortune = ref<Fortune | null>(null)
+const progress = ref(0)
 let timer: ReturnType<typeof setInterval> | null = null
 
 const fortunes: Fortune[] = [
@@ -30,16 +31,31 @@ function startFortune() {
   // 모달 열고 카운트다운 시작
   showModal.value = true
   state.value = 'watching'
-  totalTime.value = Math.floor(Math.random() * 6) + 10 // 10~15초
+  totalTime.value = 3 // 3초로 고정
   countdown.value = totalTime.value
+  progress.value = 0
+
+  const startTime = Date.now()
+  const duration = totalTime.value * 1000
 
   timer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) {
+    const now = Date.now()
+    const elapsed = now - startTime
+    
+    // 진행률 계산 (0~100)
+    progress.value = Math.min(100, (elapsed / duration) * 100)
+    // 남은 시간 계산 (올림 처리하여 자연스럽게)
+    countdown.value = Math.max(0, Math.ceil((duration - elapsed) / 1000))
+
+    if (elapsed >= duration) {
+      progress.value = 100
       clearTimer()
-      showResult()
+      // 100% 도달하는 모습을 잠깐 보여주고 결과 전환
+      setTimeout(() => {
+        showResult()
+      }, 150)
     }
-  }, 1000)
+  }, 30) // 30ms 간격으로 매우 부드럽게 업데이트
 }
 
 function showResult() {
@@ -144,14 +160,14 @@ onUnmounted(() => clearTimer())
 
         <!-- 광고 시청 중 -->
         <div v-if="state === 'watching'" class="px-6 py-6">
-          <p class="mb-4 text-center text-sm text-slate-400">광고가 끝나면 점괘가 공개됩니다</p>
+          <p class="mb-4 text-center text-sm text-slate-400">행운의 기운을 모으고 있습니다...</p>
 
           <!-- AdSense 슬롯 (플레이스홀더) -->
           <div class="flex h-[250px] items-center justify-center rounded-xl border border-dashed border-slate-600 bg-slate-900/50">
             <!-- AdSense slot: 승인 후 여기에 광고 코드 삽입 -->
-            <div class="text-center">
-              <p class="text-2xl text-slate-600">AD</p>
-              <p class="mt-1 text-xs text-slate-700">광고 영역</p>
+            <div class="text-center px-4">
+              <p class="text-lg font-medium text-slate-500 italic mb-1">아직 광고가 없습니다</p>
+              <p class="text-xs text-slate-700">분석을 위해 잠시만 기다려주세요</p>
             </div>
           </div>
 
@@ -159,17 +175,17 @@ onUnmounted(() => clearTimer())
           <div class="mt-4 flex items-center gap-3">
             <div class="flex-1 h-2 rounded-full bg-slate-700 overflow-hidden">
               <div
-                class="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-1000 ease-linear"
-                :style="{ width: `${((totalTime - countdown) / totalTime) * 100}%` }"
+                class="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500 transition-all duration-30 ease-linear"
+                :style="{ width: `${progress}%` }"
               />
             </div>
-            <span class="shrink-0 rounded-full bg-blue-500/20 border border-blue-500/30 px-3 py-0.5 text-xs font-bold text-blue-300">
-              {{ countdown }}초
+            <span class="shrink-0 rounded-full bg-blue-500/20 border border-blue-500/30 px-3 py-0.5 text-xs font-bold text-blue-300 w-10 text-center">
+              {{ countdown }}
             </span>
           </div>
 
-          <p class="mt-3 text-center text-xs text-slate-500">
-            닫으면 처음부터 다시 시청해야 합니다
+          <p class="mt-3 text-center text-[10px] text-slate-600 uppercase tracking-widest">
+            Gathering Fortune...
           </p>
         </div>
 

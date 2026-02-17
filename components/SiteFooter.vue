@@ -26,9 +26,9 @@
         <div class="flex flex-col gap-4">
           <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-300">Support</h3>
           <p class="text-sm text-slate-400">
-            문의: help@moneyttuk.com<br>
-            사업자 정보 및 면책 조항은<br>
-            이용약관을 확인해주세요.
+            서비스 이용 및 제휴 문의는<br>
+            이용약관 내 안내된 절차를<br>
+            확인해 주세요.
           </p>
         </div>
       </div>
