@@ -41,10 +41,6 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
       <!-- 오른쪽: 점괘 배너 -->
       <div class="w-full lg:w-80 shrink-0 flex flex-col gap-4">
         <FortuneBanner />
-        <!-- 모바일/태블릿 전용 가로 배너 (사이드 배너 안 보일 때) -->
-        <div class="2xl:hidden">
-          <AdBanner position="bottom" />
-        </div>
       </div>
     </div>
 
