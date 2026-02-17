@@ -27,4 +27,7 @@ export default defineNuxtConfig({
       ]
     },
   },
+  routeRules: {
+    '/': { redirect: { to: '/lotto', statusCode: 301 } }
+  }
 })
