@@ -3,27 +3,23 @@ import { ref } from 'vue'
 const deferredPrompt = ref<any>(null)
 const canInstall = ref(false)
 const isInAppBrowser = ref(false)
+const autoInstallMode = ref(false)
 
 if (import.meta.client) {
   const ua = navigator.userAgent
   isInAppBrowser.value = /KAKAOTALK|Instagram|FBAN|FBAV|Line\/|NAVER|Snapchat/i.test(ua)
 
-  // ?autoinstall=1 감지: Chrome으로 열기를 통해 진입한 경우
   const params = new URLSearchParams(window.location.search)
-  const autoInstall = params.has('autoinstall')
+  autoInstallMode.value = params.has('autoinstall')
 
-  // URL에서 autoinstall 파라미터 제거 (공유 시 재발동 방지)
-  if (autoInstall) {
+  if (autoInstallMode.value) {
     params.delete('autoinstall')
     const newUrl = [window.location.pathname, params.toString() ? `?${params}` : '', window.location.hash].join('')
     history.replaceState(null, '', newUrl)
   }
 
   window.addEventListener('beforeinstallprompt', (e) => {
-    if (autoInstall) {
-      // preventDefault 안 함 → Chrome이 미니 인포바를 자동으로 바닥에 표시
-      return
-    }
+    // 항상 가로채서 deferredPrompt에 저장 (버튼 클릭 핸들러에서 사용)
     e.preventDefault()
     deferredPrompt.value = e
     canInstall.value = true
@@ -32,6 +28,7 @@ if (import.meta.client) {
   window.addEventListener('appinstalled', () => {
     deferredPrompt.value = null
     canInstall.value = false
+    autoInstallMode.value = false
   })
 }
 
@@ -42,6 +39,7 @@ export function usePwaInstall() {
     const result = await deferredPrompt.value.userChoice
     if (result.outcome === 'accepted') {
       canInstall.value = false
+      autoInstallMode.value = false
     }
     deferredPrompt.value = null
   }
@@ -53,5 +51,5 @@ export function usePwaInstall() {
     window.location.href = `intent://${fullUrl}#Intent;scheme=https;package=com.android.chrome;end`
   }
 
-  return { canInstall, install, isInAppBrowser, openInChrome }
+  return { canInstall, install, isInAppBrowser, openInChrome, autoInstallMode }
 }

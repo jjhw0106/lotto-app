@@ -10,11 +10,39 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
   { value: 'pension', label: '연금복권 720+', emoji: '🏠' },
 ]
 
-const { canInstall, install, isInAppBrowser, openInChrome } = usePwaInstall()
+const { canInstall, install, isInAppBrowser, openInChrome, autoInstallMode } = usePwaInstall()
 </script>
 
 <template>
   <div class="flex flex-col gap-8">
+
+    <!-- autoInstall 모달: 카카오톡에서 Chrome으로 이동 후 자동 노출 -->
+    <Teleport to="body">
+      <div
+        v-if="autoInstallMode && canInstall"
+        class="fixed inset-0 z-50 flex items-end justify-center bg-black/60 backdrop-blur-sm"
+        @click.self="autoInstallMode = false"
+      >
+        <div class="w-full max-w-md rounded-t-2xl bg-slate-800 border-t border-slate-600 p-6 pb-10">
+          <div class="mx-auto mb-4 h-1 w-12 rounded-full bg-slate-600" />
+          <p class="text-center text-2xl mb-2">📲</p>
+          <h2 class="text-center text-lg font-bold text-white mb-1">머니뚝 앱 설치</h2>
+          <p class="text-center text-sm text-slate-400 mb-6">홈 화면에 추가하면 앱처럼 바로 실행할 수 있어요.</p>
+          <button
+            @click="install()"
+            class="w-full rounded-xl bg-emerald-500 py-4 text-base font-bold text-white transition active:scale-95 hover:bg-emerald-400"
+          >
+            설치하기
+          </button>
+          <button
+            @click="autoInstallMode = false"
+            class="mt-3 w-full rounded-xl py-3 text-sm text-slate-500 hover:text-slate-300"
+          >
+            나중에
+          </button>
+        </div>
+      </div>
+    </Teleport>
 
     <!-- 상단: 탭 + 점괘 배너 -->
     <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
