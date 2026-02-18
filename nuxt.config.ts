@@ -49,7 +49,9 @@ export default defineNuxtConfig({
         { property: 'og:url', content: 'https://moneyttuk.com' },
       ],
       link: [
-        { rel: 'canonical', href: 'https://moneyttuk.com' }
+        { rel: 'canonical', href: 'https://moneyttuk.com' },
+        { rel: 'manifest', href: '/manifest.webmanifest' },
+        { rel: 'apple-touch-icon', href: '/pwa-192x192.png' },
       ],
       // Google AdSense script placeholder (Replace with your CA-PUB ID later)
       script: [
