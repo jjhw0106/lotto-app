@@ -1,7 +1,37 @@
+import { defineNuxtConfig } from "nuxt/config";
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
+  modules: ['@nuxtjs/tailwindcss', '@vite-pwa/nuxt'],
+  pwa: {
+    devOptions: {
+      enabled: true,
+    },
+    registerType: 'autoUpdate',
+    manifest: {
+      name: '머니뚝 (moneyttuk)',
+      short_name: '머니뚝',
+      description: '데이터 기반 로또 및 연금복권 번호 추천 서비스. 머니뚝에서 행운이 뚝딱!',
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: '/pwa-192x192.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: '/pwa-512x512.png',
+          sizes: '512x512',
+          type: 'image/png',
+
+        },
+      ],
+    },
+    workbox: {
+      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
+    },
+  },
   devServer: {
     port: 3001,
   },

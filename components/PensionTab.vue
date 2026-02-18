@@ -19,7 +19,7 @@ const copyMessage = ref('')
 
 const modeOptions: { value: Mode; label: string; desc: string }[] = [
   { value: 'each', label: '조별 랜덤',  desc: '각 Set마다 조와 번호를 랜덤 생성' },
-  { value: 'same', label: '같은 번호 다조', desc: '같은 번호로 여러 조를 선택 (1·2등 동시 공략)' },
+  { value: 'same', label: '모든 조 같은 번호', desc: '같은 번호로 여러 조를 선택' },
 ]
 
 /** 같은번호 다조 모드에서 조 토글 */
