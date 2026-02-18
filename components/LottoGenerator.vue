@@ -9,6 +9,8 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
   { value: 'lotto',   label: '로또 6/45',     emoji: '🎰' },
   { value: 'pension', label: '연금복권 720+', emoji: '🏠' },
 ]
+
+const { $pwa } = useNuxtApp()
 </script>
 
 <template>
@@ -19,7 +21,16 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
 
       <!-- 왼쪽: 제목 + 탭 -->
       <div>
-        <h1 class="text-3xl font-bold text-white">번호 추천</h1>
+        <div class="flex items-center gap-3">
+          <h1 class="text-3xl font-bold text-white">번호 추천</h1>
+          <button
+            v-if="$pwa?.showInstallPrompt && !$pwa?.isPWAInstalled"
+            @click="$pwa?.install()"
+            class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20 active:scale-95"
+          >
+            📲 앱 설치
+          </button>
+        </div>
         <p class="mt-2 text-slate-400">전략을 선택하고 행운의 번호를 뽑아보세요.</p>
 
         <!-- 탭 버튼 -->
