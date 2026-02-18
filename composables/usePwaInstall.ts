@@ -1,10 +1,16 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-// 모듈 레벨에서 공유 — 이벤트가 한 번만 발생하므로 싱글턴으로 관리
 const deferredPrompt = ref<any>(null)
 const canInstall = ref(false)
 
+// 인앱 브라우저 여부 (카카오톡, 인스타, 페북, 라인, 네이버 등)
+const isInAppBrowser = ref(false)
+
 if (import.meta.client) {
+  const ua = navigator.userAgent
+
+  isInAppBrowser.value = /KAKAOTALK|Instagram|FBAN|FBAV|Line\/|NAVER|Snapchat/i.test(ua)
+
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault()
     deferredPrompt.value = e
@@ -28,5 +34,12 @@ export function usePwaInstall() {
     deferredPrompt.value = null
   }
 
-  return { canInstall, install }
+  // Android Chrome intent URL로 강제 이동
+  function openInChrome() {
+    const url = window.location.href
+    const intentUrl = `intent://${url.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`
+    window.location.href = intentUrl
+  }
+
+  return { canInstall, install, isInAppBrowser, openInChrome }
 }

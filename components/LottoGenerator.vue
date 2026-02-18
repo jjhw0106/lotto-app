@@ -10,7 +10,7 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
   { value: 'pension', label: '연금복권 720+', emoji: '🏠' },
 ]
 
-const { canInstall, install } = usePwaInstall()
+const { canInstall, install, isInAppBrowser, openInChrome } = usePwaInstall()
 </script>
 
 <template>
@@ -23,12 +23,21 @@ const { canInstall, install } = usePwaInstall()
       <div>
         <div class="flex items-center gap-3">
           <h1 class="text-3xl font-bold text-white">번호 추천</h1>
+          <!-- 일반 Chrome: 앱 설치 버튼 -->
           <button
-            v-if="canInstall"
+            v-if="canInstall && !isInAppBrowser"
             @click="install()"
             class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20 active:scale-95"
           >
             📲 앱 설치
+          </button>
+          <!-- 인앱 브라우저(카카오톡 등): Chrome으로 열기 버튼 -->
+          <button
+            v-if="isInAppBrowser"
+            @click="openInChrome()"
+            class="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 text-xs font-semibold text-amber-400 transition hover:bg-amber-500/20 active:scale-95"
+          >
+            🌐 앱 설치 (Chrome으로 열기)
           </button>
         </div>
         <p class="mt-2 text-slate-400">전략을 선택하고 행운의 번호를 뽑아보세요.</p>
