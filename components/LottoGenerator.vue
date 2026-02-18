@@ -10,7 +10,7 @@ const tabs: { value: Tab; label: string; emoji: string }[] = [
   { value: 'pension', label: '연금복권 720+', emoji: '🏠' },
 ]
 
-const { $pwa } = useNuxtApp()
+const { canInstall, install } = usePwaInstall()
 </script>
 
 <template>
@@ -24,8 +24,8 @@ const { $pwa } = useNuxtApp()
         <div class="flex items-center gap-3">
           <h1 class="text-3xl font-bold text-white">번호 추천</h1>
           <button
-            v-if="$pwa?.showInstallPrompt && !$pwa?.isPWAInstalled"
-            @click="$pwa?.install()"
+            v-if="canInstall"
+            @click="install()"
             class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-500/40 bg-emerald-500/10 px-3 py-1.5 text-xs font-semibold text-emerald-400 transition hover:bg-emerald-500/20 active:scale-95"
           >
             📲 앱 설치
