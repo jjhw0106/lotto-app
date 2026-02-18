@@ -3,7 +3,7 @@
 </template>
 
 <style>
-body {
+html, body {
   background-color: #0f172a;
   color: #f8fafc;
   font-family: 'Inter', sans-serif;

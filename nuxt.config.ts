@@ -13,7 +13,8 @@ export default defineNuxtConfig({
       name: '머니뚝 (moneyttuk)',
       short_name: '머니뚝',
       description: '데이터 기반 로또 및 연금복권 번호 추천 서비스. 머니뚝에서 행운이 뚝딱!',
-      theme_color: '#ffffff',
+      theme_color: '#0f172a',
+      background_color: '#0f172a',
       icons: [
         {
           src: '/pwa-192x192.png',
@@ -42,6 +43,7 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
       title: '머니뚝 (moneyttuk) | 무료 로또 및 연금복권 번호 생성기',
       meta: [
+        { name: 'theme-color', content: '#0f172a' },
         { name: 'description', content: '머니뚝(moneyttuk)에서 제공하는 무료 로또 6/45 및 연금복권 720+ 번호 생성 서비스입니다. 다양한 통계 전략과 랜덤 추출로 당신의 행운을 잡으세요.' },
         { property: 'og:title', content: '머니뚝 (moneyttuk) | 무료 로또 번호 생성기' },
         { property: 'og:description', content: '데이터 기반 로또 및 연금복권 번호 추천 서비스. 머니뚝에서 행운이 뚝딱!' },
